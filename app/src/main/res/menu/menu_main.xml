@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="app.rrg.wigo.com.wigo.MainActivity">
+    <item
+        android:id="@+id/registro"
+        android:orderInCategory="100"
+        android:title="@string/registro"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/ingreso"
+        android:orderInCategory="100"
+        android:title="@string/ingreso"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/ayuda"
+        android:orderInCategory="100"
+        android:title="@string/ayuda"
+        app:showAsAction="never" />
+</menu>

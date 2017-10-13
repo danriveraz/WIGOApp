@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">WIGO</string>
+    <string name="registro">Registro</string>
+    <string name="ingreso">Ingreso</string>
+    <string name="perfil">Perfil</string>
+    <string name="eventos">Mis eventos</string>
+    <string name="salir">Salir</string>
+    <string name="ayuda">Ayuda</string>
+    <string name="title_activity_login">Registro</string>
+
+    <!-- Strings del registro de un evento -->
+
+    <string name="nombre_evento">Nombre</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="hora">Hora</string>
+    <string name="fecha">Fecha</string>
+    <string name="direccion_evento">Dirección</string>
+    <string name="precio">Precio</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="title_activity_registro_evento">Registro evento</string>
+
+    <!-- Strings del registro -->
+    <string name="emailR">Correo</string>
+    <string name="passwordR">Contraseña</string>
+    <string name="nombre_persona">Nombre</string>
+    <string name="direccion">Direccion</string>
+    <string name="telefono">Telefono</string>
+    <string name="celular">Celular</string>
+    <string name="empresa">Empresa</string>
+    <string name="action_registrar_evento">Registrar</string>
+
+    <string name="action_sign_in">Registrarse</string>
+    <string name="action_sign_in_short">Error (?</string>
+    <string name="error_invalid_email">El correo no es valido</string>
+    <string name="error_invalid_password">La contraseña es muy corta</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="permission_rationale">"Se necesitan permisos."</string>
+
+    <string name="title_activity_inicio_sesion">Iniciar sesión</string>
+
+    <string name="title_activity_vista_admin_evento">Admin eventos</string>
+
+    <!-- Strings related to login -->
+    <string name="inicio_sesion">Iniciar sesión</string>
+    <string name="emailInicio">Correo</string>
+    <string name="passwordInicio">Contraseña</string>
+    <string name="permission_rationale_inicio">"Se necesitan permisos."</string>
+    <string name="error_invalid_password_inicio">La contraseña es muy corta</string>
+    <string name="error_field_required_inicio">Este campo es requerido</string>
+    <string name="error_invalid_email_inicio">El correo no es valido</string>
+    <string name="error_incorrect_password_inicio">La contraseña es incorrecta</string>
+
+</resources>

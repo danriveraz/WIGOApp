@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="app.rrg.wigo.com.wigo.VistaAdminEvento">
+    <item
+        android:id="@+id/perfil"
+        android:orderInCategory="100"
+        android:title="@string/perfil"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/mis_eventos"
+        android:orderInCategory="100"
+        android:title="@string/eventos"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/cerrar_sesion"
+        android:orderInCategory="100"
+        android:title="@string/salir"
+        app:showAsAction="never" />
+</menu>
