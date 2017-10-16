@@ -3,7 +3,9 @@ package app.rrg.wigo.com.wigo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.rrg.wigo.com.wigo.Entities.Usuario;
+import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -63,6 +66,7 @@ public class InicioSesion extends AppCompatActivity implements LoaderCallbacks<C
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private Sesion sesion;
     private UsuarioBD db;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -73,6 +77,8 @@ public class InicioSesion extends AppCompatActivity implements LoaderCallbacks<C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
+        Context context = this;
+        sesion = new Sesion(context);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.emailInicio);
         populateAutoComplete();
@@ -380,6 +386,7 @@ public class InicioSesion extends AppCompatActivity implements LoaderCallbacks<C
             showProgress(false);
 
             if (flag1) {
+                sesion.setLoggedin(mEmailView.getText().toString());
                 finish();
             } else if(flag2){
                 Toast fracaso = Toast.makeText(getApplicationContext(), "El correo no existe",Toast.LENGTH_SHORT);

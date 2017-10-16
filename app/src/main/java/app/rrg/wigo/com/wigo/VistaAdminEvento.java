@@ -15,11 +15,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.Utilidades;
 
 public class VistaAdminEvento extends AppCompatActivity {
 
     ConexionSQLiteHelper conexion;
+    private Sesion sesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class VistaAdminEvento extends AppCompatActivity {
         setContentView(R.layout.activity_vista_admin_evento);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        sesion = new Sesion(this);
         //Toast.makeText(VistaAdminEvento.this,"Resultado: ", Toast.LENGTH_LONG).show();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +69,10 @@ public class VistaAdminEvento extends AppCompatActivity {
             startActivity(inicio);*/
             return true;
         }else if(id == R.id.cerrar_sesion) {
-            Toast.makeText(this,"Proximamente",Toast.LENGTH_LONG).show();
+            sesion.setLoggedin("");
+            Intent iniciar = new Intent(VistaAdminEvento.this,MainActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(iniciar);
             return true;
         }
 

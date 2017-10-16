@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.rrg.wigo.com.wigo.Entities.Usuario;
+import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 import app.rrg.wigo.com.wigo.Utilidades.Utilidades;
 
@@ -66,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private Sesion sesion;
     private UsuarioBD db;
     private AutoCompleteTextView mNombreView;
     private AutoCompleteTextView mDireccionView;
@@ -82,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        sesion = new Sesion(this);
         // Set up the login form.
 
         conexion = new ConexionSQLiteHelper(getApplicationContext(), "bd_wigo", null, 1);
@@ -443,6 +446,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
             if(flag){
+                sesion.setLoggedin(mEmailView.getText().toString());
                 Toast exito = Toast.makeText(getApplicationContext(), "Registro exitoso",Toast.LENGTH_SHORT);
                 exito.show();
                 finish();

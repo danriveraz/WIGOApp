@@ -1,33 +1,38 @@
 package app.rrg.wigo.com.wigo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import java.util.List;
-
-import app.rrg.wigo.com.wigo.Entities.Usuario;
+import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 
 public class MainActivity extends AppCompatActivity {
 
     private UsuarioBD db;
-
+    private Sesion sesion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Context context = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         db = new UsuarioBD(this);
+        sesion = new Sesion(context);
+        Log.i("---> Loggedin: ", sesion.loggedin());
+
+        if(!sesion.loggedin().equals("")){
+            Intent iniciar = new Intent(this,VistaAdminEvento.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(iniciar);
+        }
         mostrarUsuariosLog();
     }
 
