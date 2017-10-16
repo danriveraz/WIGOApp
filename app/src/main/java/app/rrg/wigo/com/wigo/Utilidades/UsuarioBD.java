@@ -126,7 +126,6 @@ public class UsuarioBD {
         String where = Utilidades.CORREO_USUARIO + "= ?";
         String[] whereArgs = {correo};
         Cursor c = db.query(Utilidades.TABLA_USUARIO, null, where, whereArgs, null, null, null);
-        Log.i("---> Correo: ", "j");
         if( c != null || c.getCount() >=0) {
             c.moveToFirst();
             usuario.setId(c.getInt(0));

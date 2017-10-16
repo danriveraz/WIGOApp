@@ -7,23 +7,23 @@ package app.rrg.wigo.com.wigo.Entities;
 public class Evento {
     private int id;
     private String nombre;
-    private String descipcion;
+    private String descripcion;
     private String hora;
     private String fecha;
     private String precio;
     private String direccion;
-    private String creador;
+    private int creador;
     //private String imagen;
 
     public Evento(){}
 
-    public Evento(String nombre, String descipcion, String hora, String fecha, String precio, String direccion, String creador){
+    public Evento(String nombre, String descripcion, String hora, String fecha, String precio, String direccion, int creador){
         this.nombre = nombre;
-        this.descipcion = descipcion;
+        this.descripcion = descripcion;
         this.hora = hora;
         this.fecha = fecha;
         this.precio = precio;
-        this.descipcion = direccion;
+        this.direccion = direccion;
         this.creador = creador;
     }
 
@@ -35,8 +35,8 @@ public class Evento {
         this.nombre = nombre;
     }
 
-    public void setDescipcion(String descipcion) {
-        this.descipcion = descipcion;
+    public void setDescipcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public void setHora(String hora) {
@@ -55,7 +55,7 @@ public class Evento {
         this.direccion = direccion;
     }
 
-    public void setCreador(String creador){
+    public void setCreador(int creador){
         this.creador = creador;
     }
 
@@ -67,8 +67,8 @@ public class Evento {
         return nombre;
     }
 
-    public String getDescipcion() {
-        return descipcion;
+    public String getDescripcion() {
+        return descripcion;
     }
 
     public String getHora() {
@@ -87,7 +87,7 @@ public class Evento {
         return direccion;
     }
 
-    public String getCreador(){
+    public int getCreador(){
         return creador;
     }
 
@@ -96,11 +96,12 @@ public class Evento {
         return "Evento{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descipcion + '\'' +
+                ", descripcion='" + descripcion + '\'' +
                 ", hora='" + hora + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", precio='" + precio + '\'' +
                 ", direccion='" + direccion + '\'' +
+                ", creador='" + creador + '\'' +
                 '}';
     }
 }

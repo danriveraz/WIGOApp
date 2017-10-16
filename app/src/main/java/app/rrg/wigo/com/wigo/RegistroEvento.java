@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +36,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.rrg.wigo.com.wigo.Entities.Evento;
+import app.rrg.wigo.com.wigo.Entities.Usuario;
+import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
+import app.rrg.wigo.com.wigo.Utilidades.Sesion;
+import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 import app.rrg.wigo.com.wigo.Utilidades.Utilidades;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -62,6 +68,8 @@ public class RegistroEvento extends AppCompatActivity {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private Sesion sesion;
+    private EventoBD db;
     private AutoCompleteTextView mNombreEventoView;
     private AutoCompleteTextView mDescripcionEventoView;
     private AutoCompleteTextView mHoraEventoView;
@@ -77,6 +85,7 @@ public class RegistroEvento extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_evento);
+        sesion = new Sesion(this);
         // Set up the login form.
 
         conexion = new ConexionSQLiteHelper(getApplicationContext(),"bd_wigo",null,1);
@@ -277,24 +286,23 @@ public class RegistroEvento extends AppCompatActivity {
     }
 
     private void registrarEvento() {
-        EditText nombre = (EditText)findViewById(R.id.nombre_evento);
-        EditText descripcion = (EditText)findViewById(R.id.descripcion_evento);
-        EditText hora = (EditText)findViewById(R.id.hora_evento);
-        EditText fecha = (EditText)findViewById(R.id.fecha_evento);
-        EditText precio = (EditText)findViewById(R.id.precio_evento);
-        EditText direccion = (EditText)findViewById(R.id.direccion_evento);
+        UsuarioBD usbd = new UsuarioBD(this);
+        AutoCompleteTextView nombre = (AutoCompleteTextView)findViewById(R.id.nombre_evento);
+        AutoCompleteTextView descripcion = (AutoCompleteTextView)findViewById(R.id.descripcion_evento);
+        AutoCompleteTextView hora = (AutoCompleteTextView)findViewById(R.id.hora_evento);
+        AutoCompleteTextView fecha = (AutoCompleteTextView)findViewById(R.id.fecha_evento);
+        AutoCompleteTextView precio = (AutoCompleteTextView)findViewById(R.id.precio_evento);
+        AutoCompleteTextView direccionEvento = (AutoCompleteTextView)findViewById(R.id.direccion_evento);
+        Usuario usuario = usbd.buscarUsuarios(sesion.loggedin());
+        int creador = usuario.getId();
+        db = new EventoBD(RegistroEvento.this);
 
-        SQLiteDatabase bd = conexion.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Utilidades.NOMBRE_EVENTO,nombre.getText().toString());
-        values.put(Utilidades.DESCRIPCION_EVENTO, descripcion.getText().toString());
-        values.put(Utilidades.HORA_EVENTO, hora.getText().toString());
-        values.put(Utilidades.FECHA_EVENTO, fecha.getText().toString());
-        values.put(Utilidades.PRECIO_EVENTO, precio.getText().toString());
-        values.put(Utilidades.DIRECCION_EVENTO, direccion.getText().toString());
-        values.put(Utilidades.CREADOR_EVENTO, 1);
-        Long resultado = bd.insert(Utilidades.TABLA_EVENTO,Utilidades.NOMBRE_EVENTO,values);
-        bd.close();
+        Evento evento = new Evento(nombre.getText().toString(), descripcion.getText().toString(), hora.getText().toString(),
+                fecha.getText().toString(), precio.getText().toString(), direccionEvento.getText().toString(), creador);
+
+        db.insertEvento(evento);
+
+        Log.i("---> Base de datos: ", evento.toString());
     }
 }
 

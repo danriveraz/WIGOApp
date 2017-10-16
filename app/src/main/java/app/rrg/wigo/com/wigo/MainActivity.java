@@ -10,12 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import java.util.List;
+
+import app.rrg.wigo.com.wigo.Entities.Evento;
+import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 
 public class MainActivity extends AppCompatActivity {
 
     private UsuarioBD db;
+    private EventoBD dbe;
     private Sesion sesion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dbe = new EventoBD(this);
         db = new UsuarioBD(this);
         sesion = new Sesion(context);
         Log.i("---> Loggedin: ", sesion.loggedin());
@@ -34,10 +39,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(iniciar);
         }
         mostrarUsuariosLog();
+        //mostrarEventosLog();
     }
 
     private void mostrarUsuariosLog() {
         List list = db.loadUsuarios();
+        if (list.size() != 0){
+            for (int i = 0; i < list.size(); i++) {
+                Log.i("---> Base de datos: ", list.get(i).toString());
+            }
+        }
+    }
+
+    private void mostrarEventosLog(){
+        List list = dbe.loadEventos();
         if (list.size() != 0){
             for (int i = 0; i < list.size(); i++) {
                 Log.i("---> Base de datos: ", list.get(i).toString());

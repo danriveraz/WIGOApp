@@ -20,7 +20,7 @@ public class EventoBD {
     private DBHelper dbHelper;
 
     public EventoBD(Context context) {
-        dbHelper = new EventoBD.DBHelper(context);
+        dbHelper = new DBHelper(context);
     }
 
     private void openReadableDB() {
@@ -47,7 +47,7 @@ public class EventoBD {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(Utilidades.CREADOR_EVENTO);
+            db.execSQL(Utilidades.CREAR_EVENTO);
         }
 
         @Override
@@ -59,7 +59,7 @@ public class EventoBD {
     private ContentValues eventoMapperContentValues(Evento evento) {
         ContentValues cv = new ContentValues();
         cv.put(Utilidades.NOMBRE_EVENTO, evento.getNombre());
-        cv.put(Utilidades.DESCRIPCION_EVENTO, evento.getDescipcion());
+        cv.put(Utilidades.DESCRIPCION_EVENTO, evento.getDescripcion());
         cv.put(Utilidades.HORA_EVENTO, evento.getHora());
         cv.put(Utilidades.FECHA_EVENTO, evento.getFecha());
         cv.put(Utilidades.PRECIO_EVENTO, evento.getPrecio());
@@ -109,7 +109,7 @@ public class EventoBD {
                 evento.setFecha(c.getString(4));
                 evento.setPrecio(c.getString(5));
                 evento.setDireccion(c.getString(6));
-                evento.setCreador(c.getString(7));
+                evento.setCreador(c.getInt(7));
                 list.add(evento);
             }
         } finally {
@@ -135,7 +135,7 @@ public class EventoBD {
             evento.setFecha(c.getString(4));
             evento.setPrecio(c.getString(5));
             evento.setDireccion(c.getString(6));
-            evento.setCreador(c.getString(7));
+            evento.setCreador(c.getInt(7));
             c.close();
         }
         this.closeDB();
