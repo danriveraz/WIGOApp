@@ -12,17 +12,19 @@ public class Evento {
     private String fecha;
     private String precio;
     private String direccion;
+    private String creador;
     //private String imagen;
 
     public Evento(){}
 
-    public Evento(String nombre, String descipcion, String hora, String fecha, String precio, String direccion){
+    public Evento(String nombre, String descipcion, String hora, String fecha, String precio, String direccion, String creador){
         this.nombre = nombre;
         this.descipcion = descipcion;
         this.hora = hora;
         this.fecha = fecha;
         this.precio = precio;
-        this.descipcion = descipcion;
+        this.descipcion = direccion;
+        this.creador = creador;
     }
 
     public void setId(int id) {
@@ -53,6 +55,10 @@ public class Evento {
         this.direccion = direccion;
     }
 
+    public void setCreador(String creador){
+        this.creador = creador;
+    }
+
     public int getId() {
         return id;
     }
@@ -79,6 +85,10 @@ public class Evento {
 
     public String getDireccion() {
         return direccion;
+    }
+
+    public String getCreador(){
+        return creador;
     }
 
     @Override
