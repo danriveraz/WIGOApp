@@ -18,7 +18,7 @@ import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 
 public class MainActivity extends AppCompatActivity {
 
-    private UsuarioBD db;
+    private UsuarioBD dbu;
     private EventoBD dbe;
     private Sesion sesion;
     @Override
@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         Context context = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dbu = new UsuarioBD(this);
         dbe = new EventoBD(this);
-        db = new UsuarioBD(this);
         sesion = new Sesion(context);
         Log.i("---> Loggedin: ", sesion.loggedin());
 
@@ -39,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(iniciar);
         }
         mostrarUsuariosLog();
-        //mostrarEventosLog();
+        mostrarEventosLog();
     }
 
     private void mostrarUsuariosLog() {
-        List list = db.loadUsuarios();
+        List list = dbu.loadUsuarios();
         if (list.size() != 0){
             for (int i = 0; i < list.size(); i++) {
                 Log.i("---> Base de datos: ", list.get(i).toString());

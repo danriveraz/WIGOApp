@@ -3,10 +3,8 @@ package app.rrg.wigo.com.wigo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +38,6 @@ import java.util.List;
 import app.rrg.wigo.com.wigo.Entities.Usuario;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
-import app.rrg.wigo.com.wigo.Utilidades.Utilidades;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -78,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    ConexionSQLiteHelper conexion;
+    DBHelper conexion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         sesion = new Sesion(this);
         // Set up the login form.
 
-        conexion = new ConexionSQLiteHelper(getApplicationContext(), "bd_wigo", null, 1);
+        conexion = new DBHelper(this);
 
         mNombreView = (AutoCompleteTextView) findViewById(R.id.nombrePersona);
         mDireccionView = (AutoCompleteTextView) findViewById(R.id.direccion);
@@ -416,7 +413,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Usuario usuario = new Usuario(nombre.getText().toString(),
                     correo.getText().toString(), direccion.getText().toString(), telefono.getText().toString(),
                     celular.getText().toString(), empresa.getText().toString(), contrasena.getText().toString());
-
+            Log.i("---> Base de datos: ", usuario.toString());
             if(validarUsuariosLog(correo.getText().toString())){
                 Log.i("---> Base de datos: ", "Insertando Usuarios....");
                 db.insertUsuario(usuario);

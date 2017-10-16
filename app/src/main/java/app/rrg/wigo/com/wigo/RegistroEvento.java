@@ -3,37 +3,20 @@ package app.rrg.wigo.com.wigo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.ContentValues;
-import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
@@ -41,9 +24,6 @@ import app.rrg.wigo.com.wigo.Entities.Usuario;
 import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
-import app.rrg.wigo.com.wigo.Utilidades.Utilidades;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -79,7 +59,7 @@ public class RegistroEvento extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
-    ConexionSQLiteHelper conexion;
+    DBHelper conexion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +68,7 @@ public class RegistroEvento extends AppCompatActivity {
         sesion = new Sesion(this);
         // Set up the login form.
 
-        conexion = new ConexionSQLiteHelper(getApplicationContext(),"bd_wigo",null,1);
+        conexion = new DBHelper(this);
 
         mNombreEventoView = (AutoCompleteTextView) findViewById(R.id.nombre_evento);
         mDescripcionEventoView = (AutoCompleteTextView) findViewById(R.id.descripcion_evento);
@@ -231,7 +211,7 @@ public class RegistroEvento extends AppCompatActivity {
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
+        private boolean flag = false;
         private final String mNombre;
         private final String mDescripcion;
         private final String mHora;
@@ -260,8 +240,12 @@ public class RegistroEvento extends AppCompatActivity {
 
 
             // TODO: register the new account here.
-
-            registrarEvento();
+            boolean registro = registrarEvento();
+            if (registro){
+                flag = true;
+            }else{
+                flag = false;
+            }
 
             return true;
         }
@@ -271,10 +255,14 @@ public class RegistroEvento extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (flag) {
+                Toast exito = Toast.makeText(getApplicationContext(), "Registro exitoso",Toast.LENGTH_SHORT);
+                exito.show();
                 finish();
             } else {
-
+                Toast fracaso = Toast.makeText(getApplicationContext(), "Nombre de evento en uso",Toast.LENGTH_SHORT);
+                fracaso.show();
+                mNombreEventoView.requestFocus();
             }
         }
 
@@ -285,7 +273,7 @@ public class RegistroEvento extends AppCompatActivity {
         }
     }
 
-    private void registrarEvento() {
+    private boolean registrarEvento() {
         UsuarioBD usbd = new UsuarioBD(this);
         AutoCompleteTextView nombre = (AutoCompleteTextView)findViewById(R.id.nombre_evento);
         AutoCompleteTextView descripcion = (AutoCompleteTextView)findViewById(R.id.descripcion_evento);
@@ -296,13 +284,28 @@ public class RegistroEvento extends AppCompatActivity {
         Usuario usuario = usbd.buscarUsuarios(sesion.loggedin());
         int creador = usuario.getId();
         db = new EventoBD(RegistroEvento.this);
-
         Evento evento = new Evento(nombre.getText().toString(), descripcion.getText().toString(), hora.getText().toString(),
                 fecha.getText().toString(), precio.getText().toString(), direccionEvento.getText().toString(), creador);
-
-        db.insertEvento(evento);
-
         Log.i("---> Base de datos: ", evento.toString());
+        if(validarEvento(nombre.getText().toString())){
+            Log.i("---> Base de datos: ", "ingresando eventos");
+            db.insertEvento(evento);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private boolean validarEvento(String nombre){
+        boolean validacion = true;
+        List list = db.loadEventos();
+        for (int i = 0; i < list.size(); i++) {
+            Evento evento = (Evento) list.get(i);
+            if(evento.getNombre().toString().equals(nombre)){
+                validacion = false;
+            }
+        }
+        return validacion;
     }
 }
 

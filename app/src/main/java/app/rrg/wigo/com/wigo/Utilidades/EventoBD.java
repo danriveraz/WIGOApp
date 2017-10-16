@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import app.rrg.wigo.com.wigo.DBHelper;
 import app.rrg.wigo.com.wigo.Entities.Evento;
 
 /**
@@ -38,23 +39,6 @@ public class EventoBD {
     }
 
     //CRUD
-
-    private static class DBHelper extends SQLiteOpenHelper {
-
-        public DBHelper(Context context) {
-            super(context, Utilidades.DB_NAME, null, Utilidades.DB_VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(Utilidades.CREAR_EVENTO);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        }
-    }
 
     private ContentValues eventoMapperContentValues(Evento evento) {
         ContentValues cv = new ContentValues();
