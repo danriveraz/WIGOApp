@@ -256,6 +256,7 @@ public class RegistroEvento extends AppCompatActivity {
             showProgress(false);
 
             if (flag) {
+                //registro
                 Toast exito = Toast.makeText(getApplicationContext(), "Registro exitoso",Toast.LENGTH_SHORT);
                 exito.show();
                 finish();
