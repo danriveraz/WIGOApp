@@ -62,6 +62,7 @@ public class UsuarioBD {
 
     public void updateUsuario(Usuario usuario) {
         this.openWriteableDB();
+        Log.i("---> USUARIOBD: ", usuario.toString());
         String where = Utilidades.ID_USUARIO + "= ?";
         db.update(Utilidades.TABLA_USUARIO, usuarioMapperContentValues(usuario), where, new String[]{String.valueOf(usuario.getId())});
         db.close();

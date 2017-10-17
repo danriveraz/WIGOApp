@@ -58,9 +58,8 @@ public class VistaAdminEvento extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.perfil) {
-            Toast.makeText(this,"Proximamente",Toast.LENGTH_LONG).show();
-            /*Intent registro = new Intent(VistaAdminEvento.this,LoginActivity.class);
-            startActivity(registro);*/
+            Intent iniciar = new Intent(VistaAdminEvento.this, ModificarUsuario.class);
+            startActivity(iniciar);
             return true;
         } else if(id == R.id.mis_eventos) {
             Toast.makeText(this,"Proximamente",Toast.LENGTH_LONG).show();

@@ -36,7 +36,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegistroEvento"
-            android:label="@string/title_activity_registro_evento"></activity>
+            android:label="@string/title_activity_registro_evento" />
+        <activity
+            android:name=".ModificarUsuario"
+            android:label="@string/title_activity_modificar_usuario"></activity>
     </application>
 
 </manifest>
