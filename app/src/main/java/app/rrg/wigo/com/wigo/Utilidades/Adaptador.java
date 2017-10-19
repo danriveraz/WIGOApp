@@ -54,7 +54,6 @@ public class Adaptador extends BaseAdapter{
 
         Evento e = (Evento)eventos.get(position);
         texto.setText(e.getNombre());
-
         return vista;
     }
 }
