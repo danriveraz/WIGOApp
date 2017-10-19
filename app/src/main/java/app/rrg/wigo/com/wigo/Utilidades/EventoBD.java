@@ -49,6 +49,7 @@ public class EventoBD {
         cv.put(Utilidades.PRECIO_EVENTO, evento.getPrecio());
         cv.put(Utilidades.DIRECCION_EVENTO, evento.getDireccion());
         cv.put(Utilidades.CREADOR_EVENTO, evento.getCreador());
+        cv.put(Utilidades.IMAGEN_EVENTO, evento.getCreador());
         return cv;
     }
 
@@ -80,7 +81,7 @@ public class EventoBD {
 
         this.openReadableDB();
         String[] campos = new String[]{Utilidades.ID_EVENTO, Utilidades.NOMBRE_EVENTO, Utilidades.DESCRIPCION_EVENTO, Utilidades.HORA_EVENTO,
-                Utilidades.FECHA_EVENTO, Utilidades.PRECIO_EVENTO, Utilidades.DIRECCION_EVENTO, Utilidades.CREADOR_EVENTO};
+                Utilidades.FECHA_EVENTO, Utilidades.PRECIO_EVENTO, Utilidades.DIRECCION_EVENTO, Utilidades.IMAGEN_EVENTO,Utilidades.CREADOR_EVENTO};
         Cursor c = db.query(Utilidades.TABLA_EVENTO, campos, null, null, null, null, null);
 
         try {
@@ -88,12 +89,13 @@ public class EventoBD {
                 Evento evento = new Evento();
                 evento.setId(c.getInt(0));
                 evento.setNombre(c.getString(1));
-                evento.setDescipcion(c.getString(2));
+                evento.setDescripcion(c.getString(2));
                 evento.setHora(c.getString(3));
                 evento.setFecha(c.getString(4));
                 evento.setPrecio(c.getString(5));
                 evento.setDireccion(c.getString(6));
-                evento.setCreador(c.getInt(7));
+                evento.setImagen(c.getString(7));
+                evento.setCreador(c.getInt(8));
                 list.add(evento);
             }
         } finally {
@@ -114,12 +116,13 @@ public class EventoBD {
             c.moveToFirst();
             evento.setId(c.getInt(0));
             evento.setNombre(c.getString(1));
-            evento.setDescipcion(c.getString(2));
+            evento.setDescripcion(c.getString(2));
             evento.setHora(c.getString(3));
             evento.setFecha(c.getString(4));
             evento.setPrecio(c.getString(5));
             evento.setDireccion(c.getString(6));
-            evento.setCreador(c.getInt(7));
+            evento.setImagen(c.getString(7));
+            evento.setCreador(c.getInt(8));
             c.close();
         }
         this.closeDB();

@@ -8,10 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
+import app.rrg.wigo.com.wigo.Utilidades.Adaptador;
 import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
@@ -21,12 +25,16 @@ public class MainActivity extends AppCompatActivity {
     private UsuarioBD dbu;
     private EventoBD dbe;
     private Sesion sesion;
+    ListView lista;
+    ArrayList<Evento> eventos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Context context = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        lista = (ListView) findViewById(R.id.IdLista);
         setSupportActionBar(toolbar);
         dbu = new UsuarioBD(this);
         dbe = new EventoBD(this);
@@ -40,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         }
         mostrarUsuariosLog();
         mostrarEventosLog();
+
+        eventos = dbe.loadEventos();
+        Adaptador adaptador = new Adaptador(getApplicationContext(),eventos);
+        lista.setAdapter(adaptador);
     }
 
     private void mostrarUsuariosLog() {
