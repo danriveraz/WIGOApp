@@ -42,13 +42,14 @@ public class UsuarioBD {
 
     private ContentValues usuarioMapperContentValues(Usuario usuario) {
         ContentValues cv = new ContentValues();
-        cv.put(Utilidades.NOMBRE_USUARIO, usuario.getNombre());
-        cv.put(Utilidades.CORREO_USUARIO, usuario.getCorreo());
-        cv.put(Utilidades.DIRECCION_USUARIO, usuario.getDireccion());
-        cv.put(Utilidades.TELEFONO_USUARIO, usuario.getTelefono());
-        cv.put(Utilidades.CELULAR_USUARIO, usuario.getCelular());
-        cv.put(Utilidades.EMPRESA_USUARIO, usuario.getNombreEmpresa());
-        cv.put(Utilidades.CONTRASENA_USUARIO, usuario.getContrasena());
+        cv.put(Utilidades.NOMBRE_USUARIO,       usuario.getNombre());
+        cv.put(Utilidades.CORREO_USUARIO,       usuario.getCorreo());
+        cv.put(Utilidades.DIRECCION_USUARIO,    usuario.getDireccion());
+        cv.put(Utilidades.TELEFONO_USUARIO,     usuario.getTelefono());
+        cv.put(Utilidades.CELULAR_USUARIO,      usuario.getCelular());
+        cv.put(Utilidades.EMPRESA_USUARIO,      usuario.getNombreEmpresa());
+        cv.put(Utilidades.FOTO_USUARIO,         usuario.getFoto());
+        cv.put(Utilidades.CONTRASENA_USUARIO,   usuario.getContrasena());
         return cv;
     }
 
@@ -62,7 +63,6 @@ public class UsuarioBD {
 
     public void updateUsuario(Usuario usuario) {
         this.openWriteableDB();
-        Log.i("---> USUARIOBD: ", usuario.toString());
         String where = Utilidades.ID_USUARIO + "= ?";
         db.update(Utilidades.TABLA_USUARIO, usuarioMapperContentValues(usuario), where, new String[]{String.valueOf(usuario.getId())});
         db.close();
@@ -75,13 +75,13 @@ public class UsuarioBD {
         this.closeDB();
     }
 
-    public ArrayList loadUsuarios() {
+    public ArrayList loadUsuarios(){
 
         ArrayList list = new ArrayList<>();
-
         this.openReadableDB();
-        String[] campos = new String[]{Utilidades.ID_USUARIO, Utilidades.NOMBRE_USUARIO, Utilidades.CORREO_USUARIO, Utilidades.DIRECCION_USUARIO,
-                Utilidades.TELEFONO_USUARIO, Utilidades.CELULAR_USUARIO, Utilidades.EMPRESA_USUARIO, Utilidades.CONTRASENA_USUARIO};
+        String[] campos = new String[]{Utilidades.ID_USUARIO, Utilidades.NOMBRE_USUARIO, Utilidades.CORREO_USUARIO,
+                Utilidades.DIRECCION_USUARIO, Utilidades.TELEFONO_USUARIO, Utilidades.CELULAR_USUARIO,
+                Utilidades.EMPRESA_USUARIO, Utilidades.FOTO_USUARIO, Utilidades.CONTRASENA_USUARIO};
         Cursor c = db.query(Utilidades.TABLA_USUARIO, campos, null, null, null, null, null);
 
         try {
@@ -94,7 +94,8 @@ public class UsuarioBD {
                 usuario.setTelefono(c.getString(4));
                 usuario.setCelular(c.getString(5));
                 usuario.setNombreEmpresa(c.getString(6));
-                usuario.setContrasena(c.getString(7));
+                usuario.setFoto(c.getString(7));
+                usuario.setContrasena(c.getString(8));
                 list.add(usuario);
             }
         } finally {
@@ -120,7 +121,8 @@ public class UsuarioBD {
             usuario.setTelefono(c.getString(4));
             usuario.setCelular(c.getString(5));
             usuario.setNombreEmpresa(c.getString(6));
-            usuario.setContrasena(c.getString(7));
+            usuario.setFoto(c.getString(7));
+            usuario.setContrasena(c.getString(8));
             c.close();
         }
         this.closeDB();

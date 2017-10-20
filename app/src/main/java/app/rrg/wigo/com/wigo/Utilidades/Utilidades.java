@@ -20,9 +20,19 @@ public class Utilidades {
     public static final String CELULAR_USUARIO = "celular";
     public static final String EMPRESA_USUARIO = "empresa";
     public static final String CONTRASENA_USUARIO = "contrasena";
-    //public static final String FOTO_PERFIL = "foto_perfil";
+    public static final String FOTO_USUARIO = "foto";
 
-    public static final String CREAR_USUARIO = "CREATE TABLE "+TABLA_USUARIO+" ("+ID_USUARIO+" INTEGER PRIMARY KEY AUTOINCREMENT,"+NOMBRE_USUARIO+" TEXT,"+CORREO_USUARIO+" TEXT,"+DIRECCION_USUARIO+" TEXT,"+TELEFONO_USUARIO+" TEXT,"+CELULAR_USUARIO+" TEXT,"+EMPRESA_USUARIO+" TEXT,"+CONTRASENA_USUARIO+" TEXT" +EMPRESA_USUARIO+" TEXT);";
+    public static final String CREAR_USUARIO =
+            "CREATE TABLE "+ TABLA_USUARIO + "(" +
+            ID_USUARIO + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            NOMBRE_USUARIO      + " TEXT," +
+            CORREO_USUARIO      + " TEXT," +
+            DIRECCION_USUARIO   + " TEXT," +
+            TELEFONO_USUARIO    + " TEXT," +
+            CELULAR_USUARIO     + " TEXT," +
+            EMPRESA_USUARIO     + " TEXT," +
+            FOTO_USUARIO        + " TEXT," +
+            CONTRASENA_USUARIO  + " TEXT);" ;
 
     // Constantes tabla eventos
     public static final String TABLA_EVENTO = "eventos";
@@ -33,7 +43,7 @@ public class Utilidades {
     public static final String FECHA_EVENTO = "fecha";
     public static final String PRECIO_EVENTO = "precio";
     public static final String DIRECCION_EVENTO = "direccion";
-    public static final String FOTO_EVENTO = "foto_evento";
+    public static final String FOTO_EVENTO = "foto";
     public static final String CREADOR_EVENTO = "creador";
 
     public static final String CREAR_EVENTO = "CREATE TABLE "+TABLA_EVENTO+"("+ID_EVENTO+" INTEGER PRIMARY KEY AUTOINCREMENT, "+NOMBRE_EVENTO+" TEXT, "+DESCRIPCION_EVENTO+" TEXT,"+HORA_EVENTO+" TEXT,"+FECHA_EVENTO+" TEXT,"+PRECIO_EVENTO+" TEXT,"+DIRECCION_EVENTO+" TEXT,"+CREADOR_EVENTO+" INTEGER,FOREIGN KEY("+CREADOR_EVENTO+") REFERENCES usuarios("+ID_USUARIO+"));";

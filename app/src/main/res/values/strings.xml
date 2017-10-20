@@ -29,6 +29,7 @@
     <string name="celular">Celular</string>
     <string name="empresa">Empresa</string>
     <string name="action_registrar_evento">Registrar</string>
+    <string name="imgPerfil">Imagen perfil</string>
 
     <!-- Strings modificar usuario -->
     <string name="emailM">Correo</string>

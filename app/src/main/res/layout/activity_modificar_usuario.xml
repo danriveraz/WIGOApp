@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +12,9 @@
     tools:context="app.rrg.wigo.com.wigo.ModificarUsuario">
 
     <!-- Login progress -->
+
+
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -32,6 +36,41 @@
             android:orientation="vertical"
             android:weightSum="1">
 
+            <RelativeLayout
+                android:id="@+id/RlViewPerfilM"
+                android:layout_width="fill_parent"
+                android:layout_height="229dp"
+                android:layout_weight="1.41">
+
+                <ImageView
+                    android:id="@+id/imageViewPerfilM"
+                    android:layout_width="match_parent"
+                    android:layout_height="262dp"
+                    android:contentDescription="@string/imgPerfil"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="27dp" />
+                <!--android:background="@drawable/perfil"-->
+
+
+                <Button
+                    android:id="@+id/buttonImgPerfilM"
+                    style="@style/Widget.AppCompat.Button"
+                    android:layout_width="63dp"
+                    android:layout_height="63dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_circle"
+                    android:drawableLeft="@android:drawable/ic_menu_camera"
+                    android:drawableStart="@android:drawable/ic_menu_camera"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp" />
+
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
