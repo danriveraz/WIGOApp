@@ -3,10 +3,17 @@ package app.rrg.wigo.com.wigo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -29,9 +36,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,10 +72,22 @@ public class ModificarUsuario extends AppCompatActivity implements LoaderCallbac
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    private static String APP_DIRECTORY = "WIGO/";
+    private static String MEDIA_DIRECTORY = APP_DIRECTORY + "images";
 
+    private final int MY_PERMISSIONS = 100;
+    private final int PHOTO_CODE = 200;
+    private final int SELECT_PICTURE = 300;
+
+    private String mPath;
+
+    private ImageView mSetImageView;
+    private Button mOptionButtonView;
+    private RelativeLayout mRlView;
     // UI references.
     private UsuarioBD db;
     private Sesion sesion;
+    private String imgPeril;
     private AutoCompleteTextView mNombreView;
     private AutoCompleteTextView mDireccionView;
     private AutoCompleteTextView mTelefonoView;
@@ -83,6 +105,25 @@ public class ModificarUsuario extends AppCompatActivity implements LoaderCallbac
         sesion = new Sesion(this);
         db = new UsuarioBD(this);
         Usuario usuario = db.buscarUsuarios(sesion.loggedin());
+
+        mSetImageView = (ImageView) findViewById(R.id.imageViewPerfilM);
+        mOptionButtonView = (Button) findViewById(R.id.buttonImgPerfilM);
+        mRlView = (RelativeLayout) findViewById(R.id.RlViewPerfilM);
+
+        //Se decodifica la ruta de la fofto de perfil almacenada
+        if(usuario.getFoto().equals("")){
+            Log.i("-->SIN FOTO", "HOLI");
+        }
+        if(!usuario.getFoto().equals("")){
+            if(usuario.getFoto().charAt(0) == 'c'){
+                Uri uri = Uri.parse(usuario.getFoto());
+                mSetImageView.setImageURI(uri);
+            }else{
+                Bitmap bitmap = BitmapFactory.decodeFile(usuario.getFoto());
+                mSetImageView.setImageBitmap(bitmap);
+            }
+        }
+
         // Set up the login form.
         mNombreView = (AutoCompleteTextView) findViewById(R.id.nombrePersonaM);
         mDireccionView = (AutoCompleteTextView) findViewById(R.id.direccionM);
@@ -120,8 +161,100 @@ public class ModificarUsuario extends AppCompatActivity implements LoaderCallbac
             }
         });
 
+        mOptionButtonView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showOptions();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void showOptions(){
+        final CharSequence[] option = {"Tomar foto", "Elegir de galeria"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ModificarUsuario.this);
+        builder.setTitle("Elige una opción");
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(option[which].equals("Tomar foto")){
+                    openCamera();
+                }else if(option[which].equals("Elegir de galeria")){
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(intent.createChooser(intent, "Selecciona"), SELECT_PICTURE);
+                }else {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void openCamera() {
+        File file = new File(Environment.getExternalStorageDirectory(),MEDIA_DIRECTORY);
+        boolean isDirectoryCreated = file.exists();
+        if(!isDirectoryCreated){
+            isDirectoryCreated = file.mkdirs();
+        }
+        if(isDirectoryCreated){
+            Long timestamp = System.currentTimeMillis()/1000;
+            String imageName = timestamp.toString() + ".jpg";
+            mPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                    + File.separator + imageName;
+            File newFile = new File(mPath);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+            startActivityForResult(intent, PHOTO_CODE);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("file_path", mPath);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mPath = savedInstanceState.getString("file_path");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case PHOTO_CODE:
+                    MediaScannerConnection.scanFile(this,
+                            new String[]{mPath}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("ExternalStorage", "Scanned " + path + ":");
+                                    Log.i("ExternalStorage", "-> Uri = " + uri);
+                                }
+                            });
+                    Bitmap bitmap = BitmapFactory.decodeFile(mPath);
+                    imgPeril = mPath;
+                    Log.i("RUTAIMAGEN", "-> Uri = " + imgPeril);
+                    mSetImageView.setImageBitmap(bitmap);
+                    break;
+                case SELECT_PICTURE:
+                    Uri path = data.getData();
+                    imgPeril = path.toString();
+                    Log.i("SELECT_PICTURE", "-> Uri = " + path);
+                    mSetImageView.setImageURI(path);
+                    break;
+
+            }
+        }
     }
 
     private void populateAutoComplete() {
@@ -416,7 +549,7 @@ public class ModificarUsuario extends AppCompatActivity implements LoaderCallbac
             Usuario user = db.buscarUsuarios(sesion.loggedin());
             Usuario usuario = new Usuario(nombre.getText().toString(),
                     correo.getText().toString(), direccion.getText().toString(), telefono.getText().toString(),
-                    celular.getText().toString(), empresa.getText().toString(), contrasena.getText().toString());
+                    celular.getText().toString(), empresa.getText().toString(), contrasena.getText().toString(), imgPeril);
             usuario.setId(user.getId());
             if(validarUsuariosLog(correo.getText().toString())){
                 Log.i("---> Base de datos: ", usuario.toString());

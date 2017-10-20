@@ -13,11 +13,11 @@ public class Usuario {
     private String celular;
     private String nombreEmpresa;
     private String contrasena;
-    //private String fotoPerfil;
+    private String foto;
 
     public Usuario(){}
 
-    public Usuario(String nombre, String correo, String direccion, String telefono, String celular, String nombreEmpresa, String contrasena) {
+    public Usuario(String nombre, String correo, String direccion, String telefono, String celular, String nombreEmpresa, String contrasena, String foto) {
         this.nombre = nombre;
         this.correo = correo;
         this.direccion = direccion;
@@ -25,6 +25,7 @@ public class Usuario {
         this.celular = celular;
         this.nombreEmpresa = nombreEmpresa;
         this.contrasena = contrasena;
+        this.foto = foto;
     }
 
     public int getId(){
@@ -59,6 +60,8 @@ public class Usuario {
         return contrasena;
     }
 
+    public String getFoto() {return foto;}
+
     public void setId(int id){
         this.id = id;
     }
@@ -91,17 +94,22 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", correo='" + correo + '\'' +
-                ", nombre='" + direccion + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", celular='" + celular + '\'' +
+                ", nombre='"        + nombre        + '\'' +
+                ", correo='"        + correo        + '\'' +
+                ", nombre='"        + direccion     + '\'' +
+                ", telefono='"      + telefono      + '\'' +
+                ", celular='"       + celular       + '\'' +
                 ", nombreEmpresa='" + nombreEmpresa + '\'' +
-                ", contrasena='" + contrasena + '\'' +
+                ", contrasena='"    + contrasena    + '\'' +
+                ", foto='"          + foto          + '\'' +
                 '}';
     }
 }
