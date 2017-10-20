@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_weight="29.25"
-                android:text="@string/action_registrar_eventoM"
+                android:text="@string/action_modificar_usuario"
                 android:textStyle="bold" />
 
         </LinearLayout>

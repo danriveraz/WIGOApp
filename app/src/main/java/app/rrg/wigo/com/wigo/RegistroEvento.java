@@ -3,6 +3,15 @@ package app.rrg.wigo.com.wigo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -15,8 +24,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.List;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
@@ -47,9 +58,21 @@ public class RegistroEvento extends AppCompatActivity {
      */
     private UserLoginTask mAuthTask = null;
 
+    private static String APP_DIRECTORY = "WIGO/";
+    private static String MEDIA_DIRECTORY = APP_DIRECTORY + "images";
+
+    private final int MY_PERMISSIONS = 100;
+    private final int PHOTO_CODE = 200;
+    private final int SELECT_PICTURE = 300;
+
+    private String mPath;
+
+    private ImageView imagenViewEvento;
+    private Button botonCargaImagen;
     // UI references.
     private Sesion sesion;
     private EventoBD db;
+    private String imgEvento;
     private AutoCompleteTextView mNombreEventoView;
     private AutoCompleteTextView mDescripcionEventoView;
     private AutoCompleteTextView mHoraEventoView;
@@ -70,6 +93,25 @@ public class RegistroEvento extends AppCompatActivity {
 
         conexion = new DBHelper(this);
 
+        imagenViewEvento = (ImageView) findViewById(R.id.imageViewEvento);
+        botonCargaImagen = (Button) findViewById(R.id.buttonImgEvento);
+
+        //Se decodifica la ruta de la fofto de perfil almacenada
+        /*
+        if(usuario.getFoto().equals("")){
+            Log.i("-->SIN FOTO", "HOLI");
+        }
+        if(!usuario.getFoto().equals("")){
+            if(usuario.getFoto().charAt(0) == 'c'){
+                Uri uri = Uri.parse(usuario.getFoto());
+                mSetImageView.setImageURI(uri);
+            }else{
+                Bitmap bitmap = BitmapFactory.decodeFile(usuario.getFoto());
+                mSetImageView.setImageBitmap(bitmap);
+            }
+        }
+         */
+
         mNombreEventoView = (AutoCompleteTextView) findViewById(R.id.nombre_evento);
         mDescripcionEventoView = (AutoCompleteTextView) findViewById(R.id.descripcion_evento);
         mHoraEventoView = (AutoCompleteTextView) findViewById(R.id.hora_evento);
@@ -86,10 +128,102 @@ public class RegistroEvento extends AppCompatActivity {
             }
         });
 
+        botonCargaImagen.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showOptions();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    private void showOptions(){
+        final CharSequence[] option = {"Tomar foto", "Elegir de galeria"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(RegistroEvento.this);
+        builder.setTitle("Elige una opción");
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(option[which].equals("Tomar foto")){
+                    openCamera();
+                }else if(option[which].equals("Elegir de galeria")){
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(intent.createChooser(intent, "Selecciona"), SELECT_PICTURE);
+                }else {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void openCamera() {
+        File file = new File(Environment.getExternalStorageDirectory(),MEDIA_DIRECTORY);
+        boolean isDirectoryCreated = file.exists();
+        if(!isDirectoryCreated){
+            isDirectoryCreated = file.mkdirs();
+        }
+        if(isDirectoryCreated){
+            Long timestamp = System.currentTimeMillis()/1000;
+            String imageName = timestamp.toString() + ".jpg";
+            mPath = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY
+                    + File.separator + imageName;
+            File newFile = new File(mPath);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+            startActivityForResult(intent, PHOTO_CODE);
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("file_path", mPath);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mPath = savedInstanceState.getString("file_path");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case PHOTO_CODE:
+                    MediaScannerConnection.scanFile(this,
+                            new String[]{mPath}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("ExternalStorage", "Scanned " + path + ":");
+                                    Log.i("ExternalStorage", "-> Uri = " + uri);
+                                }
+                            });
+                    Bitmap bitmap = BitmapFactory.decodeFile(mPath);
+                    imgEvento = mPath;
+                    Log.i("RUTAIMAGEN", "-> Uri = " + imgEvento);
+                    imagenViewEvento.setImageBitmap(bitmap);
+                    break;
+                case SELECT_PICTURE:
+                    Uri path = data.getData();
+                    imgEvento = path.toString();
+                    Log.i("SELECT_PICTURE", "-> Uri = " + path);
+                    imagenViewEvento.setImageURI(path);
+                    break;
+
+            }
+        }
+    }
 
 
     /**
@@ -285,7 +419,7 @@ public class RegistroEvento extends AppCompatActivity {
         Usuario usuario = usbd.buscarUsuarios(sesion.loggedin());
         int creador = usuario.getId();
         db = new EventoBD(RegistroEvento.this);
-        Evento evento = new Evento(nombre.getText().toString(),descripcion.getText().toString(),hora.getText().toString(),fecha.getText().toString(),precio.getText().toString(),direccionEvento.getText().toString(),creador,null);
+        Evento evento = new Evento(nombre.getText().toString(),descripcion.getText().toString(),hora.getText().toString(),fecha.getText().toString(),precio.getText().toString(),direccionEvento.getText().toString(),creador,imgEvento);
         Log.i("---> Base de datos: ", evento.toString());
         if(validarEvento(nombre.getText().toString())){
             Log.i("---> Base de datos: ", "ingresando eventos");

@@ -30,6 +30,42 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/RlViewEvento"
+                android:layout_width="fill_parent"
+                android:layout_height="229dp"
+                android:layout_weight="1.41">
+
+                <ImageView
+                    android:id="@+id/imageViewEvento"
+                    android:layout_width="match_parent"
+                    android:layout_height="262dp"
+                    android:contentDescription="@string/imgPerfil"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="27dp" />
+                <!--android:background="@drawable/perfil"-->
+
+
+                <Button
+                    android:id="@+id/buttonImgEvento"
+                    style="@style/Widget.AppCompat.Button"
+                    android:layout_width="63dp"
+                    android:layout_height="63dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_circle"
+                    android:drawableLeft="@android:drawable/ic_menu_camera"
+                    android:drawableStart="@android:drawable/ic_menu_camera"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp" />
+
+            </RelativeLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -54,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:hint="@string/descripcion"
-                    android:gravity="top|left"
+                    android:gravity="top|start"
                     android:inputType="text|textMultiLine"
                     android:maxLines="4"
                     android:singleLine="true" />
@@ -127,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:text="@string/title_activity_registro_evento"
                 android:textStyle="bold" />
 
         </LinearLayout>

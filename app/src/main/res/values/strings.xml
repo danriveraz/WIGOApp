@@ -28,7 +28,7 @@
     <string name="telefono">Telefono</string>
     <string name="celular">Celular</string>
     <string name="empresa">Empresa</string>
-    <string name="action_registrar_evento">Registrar</string>
+    <string name="action_registrar_usuario">Registrarse</string>
     <string name="imgPerfil">Imagen perfil</string>
 
     <!-- Strings modificar usuario -->
@@ -39,7 +39,7 @@
     <string name="telefonoM">Telefono</string>
     <string name="celularM">Celular</string>
     <string name="empresaM">Empresa</string>
-    <string name="action_registrar_eventoM">Guardar</string>
+    <string name="action_modificar_usuario">Guardar</string>
 
     <string name="action_sign_in">Registrarse</string>
     <string name="action_sign_in_short">Error (?</string>
