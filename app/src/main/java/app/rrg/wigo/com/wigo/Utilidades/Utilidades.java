@@ -46,5 +46,15 @@ public class Utilidades {
     public static final String IMAGEN_EVENTO = "imagen";
     public static final String CREADOR_EVENTO = "creador";
 
-    public static final String CREAR_EVENTO = "CREATE TABLE "+TABLA_EVENTO+"("+ID_EVENTO+" INTEGER PRIMARY KEY AUTOINCREMENT, "+NOMBRE_EVENTO+" TEXT, "+DESCRIPCION_EVENTO+" TEXT,"+HORA_EVENTO+" TEXT,"+FECHA_EVENTO+" TEXT,"+PRECIO_EVENTO+" TEXT,"+DIRECCION_EVENTO+" TEXT,"+IMAGEN_EVENTO+" TEXT," +CREADOR_EVENTO+" INTEGER,FOREIGN KEY("+CREADOR_EVENTO+") REFERENCES usuarios("+ID_USUARIO+"));";
+    public static final String CREAR_EVENTO =
+            "CREATE TABLE "+TABLA_EVENTO+"("+
+             ID_EVENTO+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+             NOMBRE_EVENTO          +" TEXT, "+
+             DESCRIPCION_EVENTO     +" TEXT, "+
+             HORA_EVENTO            +" TEXT, "+
+             FECHA_EVENTO           +" TEXT, "+
+             PRECIO_EVENTO          +" TEXT, "+
+             DIRECCION_EVENTO       +" TEXT, "+
+             IMAGEN_EVENTO          +" TEXT, " +
+             CREADOR_EVENTO+" INTEGER,FOREIGN KEY("+CREADOR_EVENTO+") REFERENCES usuarios("+ID_USUARIO+"));";
 }

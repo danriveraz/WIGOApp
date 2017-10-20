@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -46,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(iniciar);
         }
-        mostrarUsuariosLog();
-        mostrarEventosLog();
+        //mostrarUsuariosLog();
+        //mostrarEventosLog();
 
-        eventos = dbe.loadEventos();
+        eventos = (ArrayList<Evento>)dbe.loadEventos();
         Adaptador adaptador = new Adaptador(getApplicationContext(),eventos);
+
         lista.setAdapter(adaptador);
     }
 

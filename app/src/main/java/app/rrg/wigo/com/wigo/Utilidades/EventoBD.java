@@ -48,8 +48,8 @@ public class EventoBD {
         cv.put(Utilidades.FECHA_EVENTO, evento.getFecha());
         cv.put(Utilidades.PRECIO_EVENTO, evento.getPrecio());
         cv.put(Utilidades.DIRECCION_EVENTO, evento.getDireccion());
+        cv.put(Utilidades.IMAGEN_EVENTO, evento.getImagen());
         cv.put(Utilidades.CREADOR_EVENTO, evento.getCreador());
-        cv.put(Utilidades.IMAGEN_EVENTO, evento.getCreador());
         return cv;
     }
 
@@ -61,7 +61,7 @@ public class EventoBD {
         return rowID;
     }
 
-    public void updateUsuario(Evento evento) {
+    public void updateEvento(Evento evento) {
         this.openWriteableDB();
         String where = Utilidades.ID_EVENTO + "= ?";
         db.update(Utilidades.TABLA_EVENTO, eventoMapperContentValues(evento), where, new String[]{String.valueOf(evento.getId())});
@@ -106,7 +106,7 @@ public class EventoBD {
         return list;
     }
 
-    public Evento buscarEventos(String nombre) {
+    public Evento buscarEvento(String nombre) {
         Evento evento = new Evento();
         this.openReadableDB();
         String where = Utilidades.NOMBRE_EVENTO + "= ?";
