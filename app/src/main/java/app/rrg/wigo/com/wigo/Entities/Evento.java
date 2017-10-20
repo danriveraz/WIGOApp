@@ -13,82 +13,92 @@ public class Evento {
     private String precio;
     private String direccion;
     private int creador;
-    //private String imagen;
+    private String imagen;
 
     public Evento(){}
 
-    public Evento(String nombre, String descripcion, String hora, String fecha, String precio, String direccion, int creador){
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.hora = hora;
-        this.fecha = fecha;
-        this.precio = precio;
-        this.direccion = direccion;
-        this.creador = creador;
-    }
-
-    public void setId(int id) {
+    public Evento(String nombre, String descripcion, String hora, String fecha, String precio, String direccion, int creador, String imagen) {
         this.id = id;
-    }
-
-    public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public void setDescipcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public void setHora(String hora) {
         this.hora = hora;
-    }
-
-    public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-
-    public void setPrecio(String precio) {
         this.precio = precio;
-    }
-
-    public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    public void setCreador(int creador){
         this.creador = creador;
+        this.imagen = imagen;
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
         return descripcion;
     }
 
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public String getHora() {
         return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public String getFecha() {
         return fecha;
     }
 
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
     public String getPrecio() {
         return precio;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
     }
 
     public String getDireccion() {
         return direccion;
     }
 
-    public int getCreador(){
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public int getCreador() {
         return creador;
+    }
+
+    public void setCreador(int creador) {
+        this.creador = creador;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     @Override
@@ -104,4 +114,6 @@ public class Evento {
                 ", creador='" + creador + '\'' +
                 '}';
     }
+
+
 }

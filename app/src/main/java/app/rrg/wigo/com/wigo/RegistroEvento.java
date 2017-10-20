@@ -285,8 +285,7 @@ public class RegistroEvento extends AppCompatActivity {
         Usuario usuario = usbd.buscarUsuarios(sesion.loggedin());
         int creador = usuario.getId();
         db = new EventoBD(RegistroEvento.this);
-        Evento evento = new Evento(nombre.getText().toString(), descripcion.getText().toString(), hora.getText().toString(),
-                fecha.getText().toString(), precio.getText().toString(), direccionEvento.getText().toString(), creador);
+        Evento evento = new Evento(nombre.toString(),descripcion.toString(),hora.toString(),fecha.toString(),precio.toString(),direccionEvento.toString(),creador,null);
         Log.i("---> Base de datos: ", evento.toString());
         if(validarEvento(nombre.getText().toString())){
             Log.i("---> Base de datos: ", "ingresando eventos");
