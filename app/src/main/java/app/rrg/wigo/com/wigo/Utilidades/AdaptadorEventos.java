@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,12 +21,12 @@ import app.rrg.wigo.com.wigo.R;
  * Created by root on 19/10/17.
  */
 
-public class Adaptador extends BaseAdapter{
+public class AdaptadorEventos extends BaseAdapter{
 
     Context context;
     ArrayList<Evento> eventos;
 
-    public Adaptador(Context context, ArrayList<Evento> eventos) {
+    public AdaptadorEventos(Context context, ArrayList<Evento> eventos) {
         this.context = context;
         this.eventos = eventos;
     }
@@ -51,13 +52,14 @@ public class Adaptador extends BaseAdapter{
         LayoutInflater inflater = LayoutInflater.from(context);
         vista = inflater.inflate(R.layout.item_listview,null);
 
-        ImageView imagen = (ImageView) vista.findViewById(R.id.imageView2);
-        TextView texto = (TextView) vista.findViewById(R.id.textView3);
+        ImageView imagen = (ImageView) vista.findViewById(R.id.imagenEventos);
+        ExpandableListView listaExpandible = (ExpandableListView) vista.findViewById(R.id.expandibleList);
         if (!eventos.get(position).getImagen().equals("")) {
                 Uri uri = Uri.parse(eventos.get(position).getImagen());
                 imagen.setImageURI(uri);
         }
-        texto.setText(eventos.get(position).getNombre());
+        AdaptadorExpandableList adaptador = new AdaptadorExpandableList(eventos.get(position),context);
+        listaExpandible.setAdapter(adaptador);
         return vista;
     }
 }

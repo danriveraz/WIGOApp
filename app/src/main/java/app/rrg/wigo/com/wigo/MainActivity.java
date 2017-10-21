@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
-import app.rrg.wigo.com.wigo.Utilidades.Adaptador;
+import app.rrg.wigo.com.wigo.Utilidades.AdaptadorEventos;
 import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //mostrarEventosLog();
 
         eventos = (ArrayList<Evento>)dbe.loadEventos();
-        Adaptador adaptador = new Adaptador(getApplicationContext(),eventos);
+        AdaptadorEventos adaptador = new AdaptadorEventos(getApplicationContext(),eventos);
 
         lista.setAdapter(adaptador);
     }
