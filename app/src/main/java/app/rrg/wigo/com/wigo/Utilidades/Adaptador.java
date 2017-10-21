@@ -1,9 +1,9 @@
 package app.rrg.wigo.com.wigo.Utilidades;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
-import android.util.Printer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
 import app.rrg.wigo.com.wigo.R;
@@ -54,7 +53,10 @@ public class Adaptador extends BaseAdapter{
 
         ImageView imagen = (ImageView) vista.findViewById(R.id.imageView2);
         TextView texto = (TextView) vista.findViewById(R.id.textView3);
-        Log.i("mensaje",eventos.get(position).getNombre());
+        if (!eventos.get(position).getImagen().equals("")) {
+                Uri uri = Uri.parse(eventos.get(position).getImagen());
+                imagen.setImageURI(uri);
+        }
         texto.setText(eventos.get(position).getNombre());
         return vista;
     }
