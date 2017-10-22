@@ -2,21 +2,32 @@ package app.rrg.wigo.com.wigo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.renderscript.Script;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
-import app.rrg.wigo.com.wigo.Utilidades.Adaptador;
+import app.rrg.wigo.com.wigo.Utilidades.AdaptadorEventos;
 import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
@@ -40,38 +51,30 @@ public class MainActivity extends AppCompatActivity {
         dbu = new UsuarioBD(this);
         dbe = new EventoBD(this);
         sesion = new Sesion(context);
-        Log.i("---> Loggedin: ", sesion.loggedin());
 
         if(!sesion.loggedin().equals("")){
             Intent iniciar = new Intent(this,VistaAdminEvento.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(iniciar);
         }
-        //mostrarUsuariosLog();
-        //mostrarEventosLog();
 
         eventos = (ArrayList<Evento>)dbe.loadEventos();
-        Adaptador adaptador = new Adaptador(getApplicationContext(),eventos);
+        AdaptadorEventos adaptador = new AdaptadorEventos(getApplicationContext(),eventos);
 
         lista.setAdapter(adaptador);
-    }
-
-    private void mostrarUsuariosLog() {
-        List list = dbu.loadUsuarios();
-        if (list.size() != 0){
-            for (int i = 0; i < list.size(); i++) {
-                Log.i("---> Base de datos: ", list.get(i).toString());
+        lista.setClickable(true);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LinearLayout details = (LinearLayout)view.findViewById(R.id.layoutDetalles);
+                if(details.getVisibility() == View.VISIBLE){
+                    details.setVisibility(View.GONE);
+                }else{
+                    details.setVisibility(View.VISIBLE);
+                }
             }
-        }
-    }
+        });
 
-    private void mostrarEventosLog(){
-        List list = dbe.loadEventos();
-        if (list.size() != 0){
-            for (int i = 0; i < list.size(); i++) {
-                Log.i("---> Base de datos: ", list.get(i).toString());
-            }
-        }
     }
 
     @Override

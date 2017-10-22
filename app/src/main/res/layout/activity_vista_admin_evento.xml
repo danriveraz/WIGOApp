@@ -33,6 +33,6 @@
         app:rippleColor="@color/colorPrimaryDark"
         app:srcCompat="@android:drawable/ic_input_add" />
 
-    <include layout="@layout/content_vista_admin_evento" />
+    <include layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>

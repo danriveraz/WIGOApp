@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Colores en base azul -->
-    <!--
-    <color name="colorPrimary">#277EDF</color>
-    <color name="colorPrimaryDark">#d6277ede</color>
-    <color name="colorAccent">#409aff</color>
-    -->
-
     <color name="colorPrimary">#16263c</color>
     <color name="colorPrimaryDark">#161b2d</color>
     <color name="colorAccent">#ff4081</color>
-
+    <color name="NEGRO">#000000</color>
+    <color name="GRIS">#F2F2F2</color>
 </resources>
