@@ -10,10 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import app.rrg.wigo.com.wigo.Entities.Evento;
+import app.rrg.wigo.com.wigo.Utilidades.AdaptadorEventos;
+import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.Utilidades;
 
@@ -21,14 +29,19 @@ public class VistaAdminEvento extends AppCompatActivity {
 
     DBHelper conexion;
     private Sesion sesion;
+    private EventoBD dbe;
+    ListView lista;
+    ArrayList<Evento> eventos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_admin_evento);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        lista = (ListView) findViewById(R.id.IdLista);
         setSupportActionBar(toolbar);
         sesion = new Sesion(this);
+        dbe = new EventoBD(this);
         //Toast.makeText(VistaAdminEvento.this,"Resultado: ", Toast.LENGTH_LONG).show();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +53,23 @@ public class VistaAdminEvento extends AppCompatActivity {
         });
 
         conexion = new DBHelper(this);
+
+        eventos = (ArrayList<Evento>)dbe.loadEventos();
+        AdaptadorEventos adaptador = new AdaptadorEventos(getApplicationContext(),eventos);
+
+        lista.setAdapter(adaptador);
+        lista.setClickable(true);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LinearLayout details = (LinearLayout)view.findViewById(R.id.layoutDetalles);
+                if(details.getVisibility() == View.VISIBLE){
+                    details.setVisibility(View.GONE);
+                }else{
+                    details.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -61,42 +91,19 @@ public class VistaAdminEvento extends AppCompatActivity {
             Intent iniciar = new Intent(VistaAdminEvento.this, ModificarUsuario.class);
             startActivity(iniciar);
             return true;
-        } else if(id == R.id.mis_eventos) {
-            Toast.makeText(this,"Proximamente",Toast.LENGTH_LONG).show();
+        } else if (id == R.id.mis_eventos) {
+            Toast.makeText(this, "Proximamente", Toast.LENGTH_LONG).show();
             /*Intent inicio = new Intent(VistaAdminEvento.this,InicioSesion.class);
             startActivity(inicio);*/
             return true;
-        }else if(id == R.id.cerrar_sesion) {
+        } else if (id == R.id.cerrar_sesion) {
             sesion.setLoggedin("");
-            Intent iniciar = new Intent(VistaAdminEvento.this,MainActivity.class)
+            Intent iniciar = new Intent(VistaAdminEvento.this, MainActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(iniciar);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onClick(View view){
-        if(view.getId()==R.id.button) {
-            consultar();
-        }
-    }
-
-    private void consultar() {
-        TextView info = (TextView)findViewById(R.id.textView);
-        EditText nombre = (EditText)findViewById(R.id.editText);
-        SQLiteDatabase db = conexion.getReadableDatabase();
-        String[] parametros = {nombre.getText().toString()};
-        String[] campos = {Utilidades.CORREO_USUARIO};
-
-        try{
-            Cursor cursor =  db.query(Utilidades.TABLA_USUARIO,campos,Utilidades.NOMBRE_USUARIO+"=?",parametros,null,null,null);
-            cursor.moveToFirst();
-            info.setText(cursor.getString(0));
-            cursor.close();
-        }catch (Exception e){
-            Toast.makeText(this,"No encontrado",Toast.LENGTH_LONG).show();
-        }
     }
 }

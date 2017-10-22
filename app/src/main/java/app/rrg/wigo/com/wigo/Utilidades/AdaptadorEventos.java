@@ -53,13 +53,24 @@ public class AdaptadorEventos extends BaseAdapter{
         vista = inflater.inflate(R.layout.item_listview,null);
 
         ImageView imagen = (ImageView) vista.findViewById(R.id.imagenEventos);
-        ExpandableListView listaExpandible = (ExpandableListView) vista.findViewById(R.id.expandibleList);
+        TextView textNombre = (TextView) vista.findViewById(R.id.textNombre);
+        TextView textFecha = (TextView) vista.findViewById(R.id.textFecha);
+        TextView textHora = (TextView) vista.findViewById(R.id.textHora);
+        TextView textPrecio = (TextView) vista.findViewById(R.id.textPrecio);
+        TextView textDireccion = (TextView) vista.findViewById(R.id.textDireccion);
+        TextView textDescripcion = (TextView) vista.findViewById(R.id.textDescripcion);
+
+        textNombre.setText(eventos.get(position).getNombre());
+        textFecha.setText(eventos.get(position).getFecha());
+        textHora.setText(eventos.get(position).getHora());
+        textPrecio.setText(eventos.get(position).getPrecio());
+        textDireccion.setText(eventos.get(position).getDireccion());
+        textDescripcion.setText(eventos.get(position).getDescripcion());
+
         if (!eventos.get(position).getImagen().equals("")) {
                 Uri uri = Uri.parse(eventos.get(position).getImagen());
                 imagen.setImageURI(uri);
         }
-        AdaptadorExpandableList adaptador = new AdaptadorExpandableList(eventos.get(position),context);
-        listaExpandible.setAdapter(adaptador);
         return vista;
     }
 }

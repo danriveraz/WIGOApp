@@ -96,6 +96,7 @@ public class RegistroEvento extends AppCompatActivity {
         imagenViewEvento = (ImageView) findViewById(R.id.imageViewEvento);
         botonCargaImagen = (Button) findViewById(R.id.buttonImgEvento);
 
+        imgEvento = "";
         //Se decodifica la ruta de la fofto de perfil almacenada
         /*
         if(usuario.getFoto().equals("")){

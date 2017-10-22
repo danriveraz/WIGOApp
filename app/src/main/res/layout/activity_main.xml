@@ -17,6 +17,8 @@
         app:theme="@style/toolbarStyle"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <include layout="@layout/content_main" />
+    <include
+        layout="@layout/content_main"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
