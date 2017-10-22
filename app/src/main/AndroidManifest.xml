@@ -36,14 +36,17 @@
             android:label="@string/title_activity_inicio_sesion" />
         <activity
             android:name=".VistaAdminEvento"
-            android:label="@string/title_activity_vista_admin_evento"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegistroEvento"
             android:label="@string/title_activity_registro_evento" />
         <activity
             android:name=".ModificarUsuario"
-            android:label="@string/title_activity_modificar_usuario"></activity>
+            android:label="@string/title_activity_modificar_usuario"/>
+        <activity
+            android:name=".MisEventos"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

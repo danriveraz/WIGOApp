@@ -62,9 +62,8 @@ public class VistaAdminEvento extends AppCompatActivity {
             startActivity(iniciar);
             return true;
         } else if(id == R.id.mis_eventos) {
-            Toast.makeText(this,"Proximamente",Toast.LENGTH_LONG).show();
-            /*Intent inicio = new Intent(VistaAdminEvento.this,InicioSesion.class);
-            startActivity(inicio);*/
+            Intent iniciar = new Intent(VistaAdminEvento.this,MisEventos.class);
+            startActivity(iniciar);
             return true;
         }else if(id == R.id.cerrar_sesion) {
             sesion.setLoggedin("");

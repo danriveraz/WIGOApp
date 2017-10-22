@@ -4,7 +4,7 @@
     <string name="ingreso">Ingreso</string>
     <string name="perfil">Perfil</string>
     <string name="eventos">Mis eventos</string>
-    <string name="salir">Salir</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="ayuda">Ayuda</string>
     <string name="title_activity_login">Registro</string>
 
@@ -63,5 +63,7 @@
     <string name="error_invalid_email_inicio">El correo no es valido</string>
     <string name="error_incorrect_password_inicio">La contraseña es incorrecta</string>
     <string name="title_activity_modificar_usuario">Modificar</string>
+    <string name="title_activity_mis_evetos">Mis eventos</string>
+    <string name="tituloMisEventos">Mis Eventos</string>
 
 </resources>

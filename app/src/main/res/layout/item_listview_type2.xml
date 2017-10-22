@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/imagenEvento"
+        android:layout_width="84dp"
+        android:layout_height="55dp"
+        android:cropToPadding="true"
+        app:srcCompat="@android:color/holo_orange_dark"
+        android:layout_weight="0.02" />
+
+    <TextView
+        android:id="@+id/textViewNombreEvento"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_weight="0.90"
+        android:paddingLeft="5dp"
+        android:textColor="@android:color/black" />
+
+    <ImageButton
+        android:id="@+id/buttonModificar"
+        android:layout_width="47dp"
+        android:layout_height="55dp"
+        android:src="@drawable/button_modificar_icon"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_weight="0.06" />
+
+    <ImageButton
+        android:id="@+id/buttonEliminar"
+        android:layout_width="53dp"
+        android:layout_height="55dp"
+        android:src="@drawable/button_eliminar_icon"
+        style="?android:attr/borderlessButtonStyle"/>
+
+
+</LinearLayout>

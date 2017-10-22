@@ -15,6 +15,6 @@
     <item
         android:id="@+id/cerrar_sesion"
         android:orderInCategory="100"
-        android:title="@string/salir"
+        android:title="@string/cerrar_sesion"
         app:showAsAction="never" />
 </menu>
