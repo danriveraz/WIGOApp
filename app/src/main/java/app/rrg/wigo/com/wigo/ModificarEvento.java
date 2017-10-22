@@ -9,19 +9,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.AsyncTask;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,10 +34,10 @@ import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 
 /**
- * A login screen that offers login via email/password.
+ * Created by DiegoFGuty on 22/10/2017.
  */
-public class RegistroEvento extends AppCompatActivity {
 
+public class ModificarEvento extends AppCompatActivity {
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -67,20 +64,20 @@ public class RegistroEvento extends AppCompatActivity {
 
     private String mPath;
 
-    private ImageView imagenViewEvento;
-    private Button botonCargaImagen;
+    private ImageView imagenViewEventoM;
+    private Button botonCargaImagenM;
     // UI references.
     private Sesion sesion;
     private EventoBD db;
     private String imgEvento;
-    private AutoCompleteTextView nombreEventoView;
-    private AutoCompleteTextView descripcionEventoView;
-    private AutoCompleteTextView horaEventoView;
-    private AutoCompleteTextView fechaEventoView;
-    private AutoCompleteTextView precioEventoView;
-    private AutoCompleteTextView direccionEventoView;
-    private View progressView;
-    private View loginFormView;
+    private AutoCompleteTextView mNombreEventoView;
+    private AutoCompleteTextView mDescripcionEventoView;
+    private AutoCompleteTextView mHoraEventoView;
+    private AutoCompleteTextView mFechaEventoView;
+    private AutoCompleteTextView mPrecioEventoView;
+    private AutoCompleteTextView mDireccionEventoView;
+    private View mProgressView;
+    private View mLoginFormView;
 
     DBHelper conexion;
 
@@ -89,61 +86,66 @@ public class RegistroEvento extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_evento);
         sesion = new Sesion(this);
-        // Set up the login form.
-
         conexion = new DBHelper(this);
+        db = new EventoBD(this);
+        Evento evento = db.buscarEvento("a");
 
-        imagenViewEvento = (ImageView) findViewById(R.id.imageViewEvento);
-        botonCargaImagen = (Button) findViewById(R.id.buttonImgEvento);
+        imagenViewEventoM = (ImageView) findViewById(R.id.imageViewEventoM);
+        botonCargaImagenM = (Button) findViewById(R.id.buttonImgEventoM);
+        mLoginFormView = findViewById(R.id.modificar_evento_form);
+        mProgressView = findViewById(R.id.progress_bar_modificar_evento);
 
-        imgEvento = "";
-        //Se decodifica la ruta de la fofto de perfil almacenada
-        /*
-        if(usuario.getFoto().equals("")){
+        imgEvento = evento.getImagen();
+
+        //Se decodifica la ruta de la foto del evento almacenada
+        if(evento.getImagen().equals("")){
             Log.i("-->SIN FOTO", "HOLI");
         }
-        if(!usuario.getFoto().equals("")){
-            if(usuario.getFoto().charAt(0) == 'c'){
-                Uri uri = Uri.parse(usuario.getFoto());
-                mSetImageView.setImageURI(uri);
+        if(!evento.getImagen().equals("")){
+            if(evento.getImagen().charAt(0) == 'c'){
+                Uri uri = Uri.parse(evento.getImagen());
+                imagenViewEventoM.setImageURI(uri);
             }else{
-                Bitmap bitmap = BitmapFactory.decodeFile(usuario.getFoto());
-                mSetImageView.setImageBitmap(bitmap);
+                Bitmap bitmap = BitmapFactory.decodeFile(evento.getImagen());
+                imagenViewEventoM.setImageBitmap(bitmap);
             }
         }
-         */
 
-        nombreEventoView = (AutoCompleteTextView) findViewById(R.id.nombre_evento);
-        descripcionEventoView = (AutoCompleteTextView) findViewById(R.id.descripcion_evento);
-        horaEventoView = (AutoCompleteTextView) findViewById(R.id.hora_evento);
-        fechaEventoView = (AutoCompleteTextView) findViewById(R.id.fecha_evento);
-        precioEventoView = (AutoCompleteTextView) findViewById(R.id.precio_evento);
-        direccionEventoView = (AutoCompleteTextView) findViewById(R.id.direccion_evento);
+        mNombreEventoView = (AutoCompleteTextView) findViewById(R.id.nombre_evento);
+        mDescripcionEventoView = (AutoCompleteTextView) findViewById(R.id.descripcion_evento);
+        mHoraEventoView = (AutoCompleteTextView) findViewById(R.id.hora_evento);
+        mFechaEventoView = (AutoCompleteTextView) findViewById(R.id.fecha_evento);
+        mPrecioEventoView = (AutoCompleteTextView) findViewById(R.id.precio_evento);
+        mDireccionEventoView = (AutoCompleteTextView) findViewById(R.id.direccion_evento);
 
+        mNombreEventoView.setText(evento.getNombre());
+        mDescripcionEventoView.setText(evento.getDescripcion());
+        mHoraEventoView.setText(evento.getHora());
+        mFechaEventoView.setText(evento.getFecha());
+        mPrecioEventoView.setText(evento.getPrecio());
+        mDireccionEventoView.setText(evento.getDireccion());
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.boton_registro_evento);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button botonModificarEvento = (Button) findViewById(R.id.boton_modificar_evento);
+        botonModificarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
-        botonCargaImagen.setOnClickListener(new View.OnClickListener(){
+
+        botonCargaImagenM.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 showOptions();
             }
         });
-
-        loginFormView = findViewById(R.id.login_form);
-        progressView = findViewById(R.id.login_progress);
     }
 
     private void showOptions(){
         final CharSequence[] option = {"Tomar foto", "Elegir de galeria"};
-        final AlertDialog.Builder builder = new AlertDialog.Builder(RegistroEvento.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ModificarEvento.this);
         builder.setTitle("Elige una opción");
         builder.setItems(option, new DialogInterface.OnClickListener() {
             @Override
@@ -213,13 +215,13 @@ public class RegistroEvento extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeFile(mPath);
                     imgEvento = mPath;
                     Log.i("RUTAIMAGEN", "-> Uri = " + imgEvento);
-                    imagenViewEvento.setImageBitmap(bitmap);
+                    imagenViewEventoM.setImageBitmap(bitmap);
                     break;
                 case SELECT_PICTURE:
                     Uri path = data.getData();
                     imgEvento = path.toString();
                     Log.i("SELECT_PICTURE", "-> Uri = " + path);
-                    imagenViewEvento.setImageURI(path);
+                    imagenViewEventoM.setImageURI(path);
                     break;
 
             }
@@ -238,20 +240,20 @@ public class RegistroEvento extends AppCompatActivity {
         }
 
         // Reset errors.
-        nombreEventoView.setError(null);
-        descripcionEventoView.setError(null);
-        horaEventoView.setError(null);
-        fechaEventoView.setError(null);
-        precioEventoView.setError(null);
-        direccionEventoView.setError(null);
+        mNombreEventoView.setError(null);
+        mDescripcionEventoView.setError(null);
+        mHoraEventoView.setError(null);
+        mFechaEventoView.setError(null);
+        mPrecioEventoView.setError(null);
+        mDireccionEventoView.setError(null);
 
         // Store values at the time of the login attempt.
-        String nombre = nombreEventoView.getText().toString();
-        String descripcion = descripcionEventoView.getText().toString();
-        String hora = horaEventoView.getText().toString();
-        String fecha = fechaEventoView.getText().toString();
-        String precio = precioEventoView.getText().toString();
-        String direccion = direccionEventoView.getText().toString();
+        String nombre = mNombreEventoView.getText().toString();
+        String descripcion = mDescripcionEventoView.getText().toString();
+        String hora = mHoraEventoView.getText().toString();
+        String fecha = mFechaEventoView.getText().toString();
+        String precio = mPrecioEventoView.getText().toString();
+        String direccion = mDireccionEventoView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -260,24 +262,24 @@ public class RegistroEvento extends AppCompatActivity {
 
 
         if (TextUtils.isEmpty(nombre)) {
-            nombreEventoView.setError(getString(R.string.error_field_required));
-            focusView = nombreEventoView;
+            mNombreEventoView.setError(getString(R.string.error_field_required));
+            focusView = mNombreEventoView;
             cancel = true;
         }else if (TextUtils.isEmpty(descripcion)) {
-            descripcionEventoView.setError(getString(R.string.error_field_required));
-            focusView = descripcionEventoView;
+            mDescripcionEventoView.setError(getString(R.string.error_field_required));
+            focusView = mDescripcionEventoView;
             cancel = true;
         }else if (TextUtils.isEmpty(hora)) {
-            horaEventoView.setError(getString(R.string.error_field_required));
-            focusView = horaEventoView;
+            mHoraEventoView.setError(getString(R.string.error_field_required));
+            focusView = mHoraEventoView;
             cancel = true;
         }else if (TextUtils.isEmpty(fecha)) {
-            fechaEventoView.setError(getString(R.string.error_field_required));
-            focusView = fechaEventoView;
+            mFechaEventoView.setError(getString(R.string.error_field_required));
+            focusView = mFechaEventoView;
             cancel = true;
         }else if (TextUtils.isEmpty(direccion)) {
-            direccionEventoView.setError(getString(R.string.error_field_required));
-            focusView = direccionEventoView;
+            mDireccionEventoView.setError(getString(R.string.error_field_required));
+            focusView = mDireccionEventoView;
             cancel = true;
         }
 
@@ -305,28 +307,28 @@ public class RegistroEvento extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginFormView.animate().setDuration(shortAnimTime).alpha(
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressView.animate().setDuration(shortAnimTime).alpha(
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
                 }
             });
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -365,8 +367,8 @@ public class RegistroEvento extends AppCompatActivity {
 
 
             // TODO: register the new account here.
-            boolean registro = registrarEvento();
-            if (registro){
+            boolean modificar = modificarEvento();
+            if (modificar){
                 flag = true;
             }else{
                 flag = false;
@@ -382,13 +384,13 @@ public class RegistroEvento extends AppCompatActivity {
 
             if (flag) {
                 //registros
-                Toast exito = Toast.makeText(getApplicationContext(), "Registro exitoso",Toast.LENGTH_SHORT);
+                Toast exito = Toast.makeText(getApplicationContext(), "Modificación exitosa",Toast.LENGTH_SHORT);
                 exito.show();
                 finish();
             } else {
                 Toast fracaso = Toast.makeText(getApplicationContext(), "Nombre de evento en uso",Toast.LENGTH_SHORT);
                 fracaso.show();
-                nombreEventoView.requestFocus();
+                mNombreEventoView.requestFocus();
             }
         }
 
@@ -399,22 +401,23 @@ public class RegistroEvento extends AppCompatActivity {
         }
     }
 
-    private boolean registrarEvento() {
+    private boolean modificarEvento() {
         UsuarioBD usbd = new UsuarioBD(this);
-        AutoCompleteTextView nombre = (AutoCompleteTextView)findViewById(R.id.nombre_evento);
-        AutoCompleteTextView descripcion = (AutoCompleteTextView)findViewById(R.id.descripcion_evento);
-        AutoCompleteTextView hora = (AutoCompleteTextView)findViewById(R.id.hora_evento);
-        AutoCompleteTextView fecha = (AutoCompleteTextView)findViewById(R.id.fecha_evento);
-        AutoCompleteTextView precio = (AutoCompleteTextView)findViewById(R.id.precio_evento);
-        AutoCompleteTextView direccionEvento = (AutoCompleteTextView)findViewById(R.id.direccion_evento);
+        AutoCompleteTextView nombre = (AutoCompleteTextView)findViewById(R.id.nombre_eventoM);
+        AutoCompleteTextView descripcion = (AutoCompleteTextView)findViewById(R.id.descripcion_eventoM);
+        AutoCompleteTextView hora = (AutoCompleteTextView)findViewById(R.id.hora_eventoM);
+        AutoCompleteTextView fecha = (AutoCompleteTextView)findViewById(R.id.fecha_eventoM);
+        AutoCompleteTextView precio = (AutoCompleteTextView)findViewById(R.id.precio_eventoM);
+        AutoCompleteTextView direccionEvento = (AutoCompleteTextView)findViewById(R.id.direccion_eventoM);
         Usuario usuario = usbd.buscarUsuarios(sesion.loggedin());
         int creador = usuario.getId();
-        db = new EventoBD(RegistroEvento.this);
-        Evento evento = new Evento(nombre.getText().toString(),descripcion.getText().toString(),hora.getText().toString(),fecha.getText().toString(),precio.getText().toString(),direccionEvento.getText().toString(),creador,imgEvento);
+        db = new EventoBD(ModificarEvento.this);
+        Evento evento = new Evento(nombre.getText().toString(),descripcion.getText().toString(),hora.getText().toString(),
+                fecha.getText().toString(),precio.getText().toString(),direccionEvento.getText().toString(),creador,imgEvento);
         Log.i("---> Base de datos: ", evento.toString());
         if(validarEvento(nombre.getText().toString())){
-            Log.i("---> Base de datos: ", "ingresando eventos");
-            db.insertEvento(evento);
+            Log.i("---> Base de datos: ", "Modificando evento");
+            db.updateEvento(evento);
             return true;
         }else{
             return false;
@@ -432,6 +435,5 @@ public class RegistroEvento extends AppCompatActivity {
         }
         return validacion;
     }
+
 }
-
-

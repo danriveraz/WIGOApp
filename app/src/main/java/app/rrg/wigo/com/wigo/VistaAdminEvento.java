@@ -94,6 +94,7 @@ public class VistaAdminEvento extends AppCompatActivity {
         } else if(id == R.id.mis_eventos) {
             Intent iniciar = new Intent(VistaAdminEvento.this,MisEventos.class);
             startActivity(iniciar);
+            return true;
         }else if(id == R.id.cerrar_sesion) {
             sesion.setLoggedin("");
             Intent iniciar = new Intent(VistaAdminEvento.this,MainActivity.class)

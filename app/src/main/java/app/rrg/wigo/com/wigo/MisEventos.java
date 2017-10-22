@@ -1,14 +1,14 @@
 package app.rrg.wigo.com.wigo;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -47,8 +47,34 @@ public class MisEventos extends AppCompatActivity {
 
         eventos = (ArrayList<Evento>)dbe.loadEventos();
         Adaptador2 adaptador = new Adaptador2(getApplicationContext(),eventos);
-
         lista.setAdapter(adaptador);
+
+        ImageButton botonModificar = (ImageButton) findViewById(R.id.buttonModificar);
+        botonModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modificarEventoButtonListener();
+            }
+        });
+        ImageButton botonEliminar = (ImageButton) findViewById(R.id.buttonEliminar);
+        botonEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                eliminarEventoButtonListener();
+            }
+        });
+    }
+
+    private void modificarEventoButtonListener() {
+        Toast modificar = Toast.makeText(getApplicationContext(), "Modificar",Toast.LENGTH_SHORT);
+        modificar.show();
+        finish();
+    }
+
+    private void eliminarEventoButtonListener() {
+        Toast eliminar = Toast.makeText(getApplicationContext(), "Eliminar",Toast.LENGTH_SHORT);
+        eliminar.show();
+        finish();
     }
 
     @Override
