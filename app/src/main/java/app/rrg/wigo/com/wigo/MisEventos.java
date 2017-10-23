@@ -1,22 +1,22 @@
 package app.rrg.wigo.com.wigo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
-import app.rrg.wigo.com.wigo.Utilidades.Adaptador2;
+import app.rrg.wigo.com.wigo.Entities.Usuario;
+import app.rrg.wigo.com.wigo.Utilidades.AdaptadorMisEventos;
 import app.rrg.wigo.com.wigo.Utilidades.EventoBD;
 import app.rrg.wigo.com.wigo.Utilidades.Sesion;
+import app.rrg.wigo.com.wigo.Utilidades.UsuarioBD;
 
 /**
  * Created by DiegoFGuty on 21/10/2017.
@@ -24,6 +24,7 @@ import app.rrg.wigo.com.wigo.Utilidades.Sesion;
 
 public class MisEventos extends AppCompatActivity {
     private EventoBD dbe;
+    private UsuarioBD dbu;
     private Sesion sesion;
     ListView lista;
     ArrayList<Evento> eventos;
@@ -32,24 +33,30 @@ public class MisEventos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_eventos);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Context context = this;
 
         //Se pone la flecha hacia atrás
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
         lista = (ListView) findViewById(R.id.IdListaMisEventos);
+        dbu = new UsuarioBD(this);
         dbe = new EventoBD(this);
-
-        sesion = new Sesion(this);
+        sesion = new Sesion(context);
+        Usuario usuario = dbu.buscarUsuarios(sesion.loggedin());
 
         eventos = (ArrayList<Evento>)dbe.loadEventos();
-        Adaptador2 adaptador = new Adaptador2(getApplicationContext(),eventos);
+        ArrayList<Evento> filtroEventos = new ArrayList<Evento>();
+        for (int i=0;i<eventos.size();i++){
+            if(usuario.getId()==eventos.get(i).getCreador()){
+                filtroEventos.add(eventos.get(i));
+            }
+        }
+        AdaptadorMisEventos adaptador = new AdaptadorMisEventos(getApplicationContext(),filtroEventos);
         lista.setAdapter(adaptador);
 
-        ImageButton botonModificar = (ImageButton) findViewById(R.id.buttonModificar);
+        /*ImageButton botonModificar = (ImageButton) findViewById(R.id.buttonModificar);
         botonModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +69,7 @@ public class MisEventos extends AppCompatActivity {
             public void onClick(View view) {
                 eliminarEventoButtonListener();
             }
-        });
+        });*/
     }
 
     private void modificarEventoButtonListener() {

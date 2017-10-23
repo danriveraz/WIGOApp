@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -133,6 +134,14 @@ public class ModificarEvento extends AppCompatActivity {
             }
         });
 
+        Button botonEliminarEvento = (Button) findViewById(R.id.button_eliminar_evento);
+        botonEliminarEvento.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                eliminarEvento();
+            }
+        });
+
 
         botonCargaImagenM.setOnClickListener(new View.OnClickListener(){
 
@@ -141,6 +150,14 @@ public class ModificarEvento extends AppCompatActivity {
                 showOptions();
             }
         });
+    }
+
+    public void eliminarEvento(){
+        UsuarioBD dbu = new UsuarioBD(this);
+        Usuario usuario = dbu.buscarUsuarios(sesion.loggedin());
+        db = new EventoBD(ModificarEvento.this);
+        db.deleteEvento(usuario.getId());
+
     }
 
     private void showOptions(){
@@ -244,7 +261,6 @@ public class ModificarEvento extends AppCompatActivity {
         mDescripcionEventoView.setError(null);
         mHoraEventoView.setError(null);
         mFechaEventoView.setError(null);
-        mPrecioEventoView.setError(null);
         mDireccionEventoView.setError(null);
 
         // Store values at the time of the login attempt.

@@ -12,7 +12,7 @@
         android:layout_width="84dp"
         android:layout_height="55dp"
         android:cropToPadding="true"
-        app:srcCompat="@android:color/holo_orange_dark"
+        app:srcCompat="@color/GRIS"
         android:layout_weight="0.02" />
 
     <TextView

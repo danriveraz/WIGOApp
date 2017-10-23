@@ -157,14 +157,32 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/boton_modificar_evento"
-                style="?android:textAppearanceSmall"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/title_activity_modificar_evento"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/boton_modificar_evento"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="Guardar"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/button_eliminar_evento"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="Eliminar" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

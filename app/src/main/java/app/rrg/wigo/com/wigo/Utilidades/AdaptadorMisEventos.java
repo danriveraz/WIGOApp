@@ -18,12 +18,12 @@ import app.rrg.wigo.com.wigo.R;
  * Created by DiegoFGuty on 21/10/2017.
  */
 
-public class Adaptador2 extends BaseAdapter{
+public class AdaptadorMisEventos extends BaseAdapter{
 
     Context context;
     ArrayList<Evento> eventos;
 
-    public Adaptador2(Context context, ArrayList<Evento> eventos) {
+    public AdaptadorMisEventos(Context context, ArrayList<Evento> eventos) {
         this.context = context;
         this.eventos = eventos;
     }
@@ -47,7 +47,7 @@ public class Adaptador2 extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         View vista = convertView;
         LayoutInflater inflater = LayoutInflater.from(context);
-        vista = inflater.inflate(R.layout.item_listview_type2,null);
+        vista = inflater.inflate(R.layout.item_listview_mis_eventos,null);
 
         ImageView imagen = (ImageView) vista.findViewById(R.id.imagenEvento);
         TextView texto = (TextView) vista.findViewById(R.id.textViewNombreEvento);
