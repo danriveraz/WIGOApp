@@ -105,7 +105,7 @@ public class ModificarUsuario extends AppCompatActivity implements LoaderCallbac
         sesion = new Sesion(this);
         db = new UsuarioBD(this);
         Usuario usuario = db.buscarUsuarios(sesion.loggedin());
-
+        imgPeril = usuario.getFoto();
         mSetImageView = (ImageView) findViewById(R.id.imageViewPerfilM);
         mOptionButtonView = (Button) findViewById(R.id.buttonImgPerfilM);
         mRlView = (RelativeLayout) findViewById(R.id.RlViewPerfilM);

@@ -117,12 +117,12 @@ public class ModificarEvento extends AppCompatActivity {
             }
         }
 
-        mNombreEventoView = (AutoCompleteTextView) findViewById(R.id.nombre_evento);
-        mDescripcionEventoView = (AutoCompleteTextView) findViewById(R.id.descripcion_evento);
-        mHoraEventoView = (AutoCompleteTextView) findViewById(R.id.hora_evento);
-        mFechaEventoView = (AutoCompleteTextView) findViewById(R.id.fecha_evento);
-        mPrecioEventoView = (AutoCompleteTextView) findViewById(R.id.precio_evento);
-        mDireccionEventoView = (AutoCompleteTextView) findViewById(R.id.direccion_evento);
+        mNombreEventoView = (AutoCompleteTextView) findViewById(R.id.nombre_eventoM);
+        mDescripcionEventoView = (AutoCompleteTextView) findViewById(R.id.descripcion_eventoM);
+        mHoraEventoView = (AutoCompleteTextView) findViewById(R.id.hora_eventoM);
+        mFechaEventoView = (AutoCompleteTextView) findViewById(R.id.fecha_eventoM);
+        mPrecioEventoView = (AutoCompleteTextView) findViewById(R.id.precio_eventoM);
+        mDireccionEventoView = (AutoCompleteTextView) findViewById(R.id.direccion_eventoM);
 
         mNombreEventoView.setText(evento.getNombre());
         mDescripcionEventoView.setText(evento.getDescripcion());

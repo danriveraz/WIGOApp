@@ -56,25 +56,8 @@ public class MisEventos extends AppCompatActivity {
                 filtroEventos.add(eventos.get(i));
             }
         }
-        AdaptadorMisEventos adaptador = new AdaptadorMisEventos(getApplicationContext(),filtroEventos);
+        AdaptadorMisEventos adaptador = new AdaptadorMisEventos(this,filtroEventos);
         lista.setAdapter(adaptador);
-
-        lista.setClickable(true);
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int viewId = view.getId();
-                switch (viewId){
-                    case R.id.buttonModificar:
-                        //Boton Detalles
-                        Toast.makeText(context,"Boton detalles: "+position,Toast.LENGTH_LONG);
-                        break;
-                    case R.id.buttonEliminar:
-                        //boton Elegir
-                        Toast.makeText(context,"Boton elegir: "+position,Toast.LENGTH_LONG);
-                }
-            }
-        });
 
         /*ImageButton botonModificar = (ImageButton) findViewById(R.id.buttonModificar);
         botonModificar.setOnClickListener(new View.OnClickListener() {

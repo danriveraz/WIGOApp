@@ -45,6 +45,9 @@
             android:name=".ModificarUsuario"
             android:label="@string/title_activity_modificar_usuario"/>
         <activity
+            android:name=".ModificarEvento"
+            android:label="@string/title_activity_modificar_evento"/>
+        <activity
             android:name=".MisEventos"
             android:label="@string/app_name" />
     </application>
