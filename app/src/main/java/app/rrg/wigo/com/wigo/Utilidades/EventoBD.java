@@ -128,4 +128,27 @@ public class EventoBD {
         this.closeDB();
         return evento;
     }
+
+    public Evento buscarEvento(int id) {
+        Evento evento = new Evento();
+        this.openReadableDB();
+        String where = Utilidades.ID_EVENTO + "= ?";
+        String[] whereArgs = {id+""};
+        Cursor c = db.query(Utilidades.TABLA_EVENTO, null, where, whereArgs, null, null, null);
+        if( c != null || c.getCount() >=0) {
+            c.moveToFirst();
+            evento.setId(c.getInt(0));
+            evento.setNombre(c.getString(1));
+            evento.setDescripcion(c.getString(2));
+            evento.setHora(c.getString(3));
+            evento.setFecha(c.getString(4));
+            evento.setPrecio(c.getString(5));
+            evento.setDireccion(c.getString(6));
+            evento.setImagen(c.getString(7));
+            evento.setCreador(c.getInt(8));
+            c.close();
+        }
+        this.closeDB();
+        return evento;
+    }
 }

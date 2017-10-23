@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
 import app.rrg.wigo.com.wigo.Entities.Usuario;
@@ -85,11 +87,14 @@ public class ModificarEvento extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_evento);
+        setContentView(R.layout.activity_modificar_evento);
         sesion = new Sesion(this);
         conexion = new DBHelper(this);
         db = new EventoBD(this);
-        Evento evento = db.buscarEvento("a");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        int id = bundle.getInt("id");
+        Evento evento = db.buscarEvento(id);
 
         imagenViewEventoM = (ImageView) findViewById(R.id.imageViewEventoM);
         botonCargaImagenM = (Button) findViewById(R.id.buttonImgEventoM);
@@ -126,7 +131,7 @@ public class ModificarEvento extends AppCompatActivity {
         mPrecioEventoView.setText(evento.getPrecio());
         mDireccionEventoView.setText(evento.getDireccion());
 
-        Button botonModificarEvento = (Button) findViewById(R.id.boton_modificar_evento);
+        /*Button botonModificarEvento = (Button) findViewById(R.id.boton_modificar_evento);
         botonModificarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,7 +145,7 @@ public class ModificarEvento extends AppCompatActivity {
             public void onClick(View view){
                 eliminarEvento();
             }
-        });
+        });*/
 
 
         botonCargaImagenM.setOnClickListener(new View.OnClickListener(){
@@ -157,7 +162,15 @@ public class ModificarEvento extends AppCompatActivity {
         Usuario usuario = dbu.buscarUsuarios(sesion.loggedin());
         db = new EventoBD(ModificarEvento.this);
         db.deleteEvento(usuario.getId());
-
+        Toast.makeText(getApplicationContext(), "Evento eliminado",Toast.LENGTH_SHORT).show();
+        android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Intent iniciar = new Intent(getApplicationContext(),VistaAdminEvento.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(iniciar);
+            }
+        }, 2000);
     }
 
     private void showOptions(){

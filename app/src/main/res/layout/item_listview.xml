@@ -29,14 +29,16 @@
 
             <TextView
                 android:id="@+id/textNombre"
-                android:layout_width="230sp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:textColor="@color/NEGRO" />
 
             <TextView
                 android:id="@+id/textFecha"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:textColor="@color/NEGRO" />
         </LinearLayout>
 
@@ -55,21 +57,23 @@
 
                 <TextView
                     android:id="@+id/textHora"
-                    android:layout_width="125dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="5"
                     android:textColor="@color/NEGRO" />
 
                 <TextView
                     android:id="@+id/textPrecio"
-                    android:layout_width="125dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="5"
                     android:textColor="@color/NEGRO" />
 
                 <TextView
                     android:id="@+id/textDireccion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:textColor="@color/NEGRO" />
 
             </LinearLayout>

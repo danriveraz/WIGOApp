@@ -12,6 +12,8 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
@@ -68,8 +70,9 @@ public class AdaptadorEventos extends BaseAdapter{
         textDescripcion.setText(eventos.get(position).getDescripcion());
 
         if (!eventos.get(position).getImagen().equals("")) {
-                Uri uri = Uri.parse(eventos.get(position).getImagen());
-                imagen.setImageURI(uri);
+            Uri uri = Uri.parse(eventos.get(position).getImagen());
+            Glide.with(context).load(uri).into(imagen);
+                //imagen.setImageURI(uri);
         }
         return vista;
     }

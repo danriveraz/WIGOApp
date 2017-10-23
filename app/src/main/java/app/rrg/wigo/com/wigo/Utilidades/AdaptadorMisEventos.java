@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import app.rrg.wigo.com.wigo.Entities.Evento;
@@ -53,7 +55,8 @@ public class AdaptadorMisEventos extends BaseAdapter{
         TextView texto = (TextView) vista.findViewById(R.id.textViewNombreEvento);
         if (!eventos.get(position).getImagen().equals("")) {
             Uri uri = Uri.parse(eventos.get(position).getImagen());
-            imagen.setImageURI(uri);
+            Glide.with(context).load(uri).into(imagen);
+            //imagen.setImageURI(uri);
         }
         texto.setText(eventos.get(position).getNombre());
         return vista;

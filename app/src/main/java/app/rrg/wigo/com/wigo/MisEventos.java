@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +36,7 @@ public class MisEventos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_eventos);
-        Context context = this;
+        final Context context = this;
 
         //Se pone la flecha hacia atrás
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,6 +58,23 @@ public class MisEventos extends AppCompatActivity {
         }
         AdaptadorMisEventos adaptador = new AdaptadorMisEventos(getApplicationContext(),filtroEventos);
         lista.setAdapter(adaptador);
+
+        lista.setClickable(true);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int viewId = view.getId();
+                switch (viewId){
+                    case R.id.buttonModificar:
+                        //Boton Detalles
+                        Toast.makeText(context,"Boton detalles: "+position,Toast.LENGTH_LONG);
+                        break;
+                    case R.id.buttonEliminar:
+                        //boton Elegir
+                        Toast.makeText(context,"Boton elegir: "+position,Toast.LENGTH_LONG);
+                }
+            }
+        });
 
         /*ImageButton botonModificar = (ImageButton) findViewById(R.id.buttonModificar);
         botonModificar.setOnClickListener(new View.OnClickListener() {
